@@ -63,7 +63,7 @@ function GetSSA
             $menu.Add($i,($ssas[$i-1].name))
         }
         ""
-        [int]$ans = Read-Host 'Enter SSA selection'
+        [int]$ans = Read-Host 'Enter SSA selection ( pick the number to the left of the SSA Name )'
         $selection = $menu.Item($ans)
         $global:ssa = Get-SPEnterpriseSearchServiceApplication $selection
     }
