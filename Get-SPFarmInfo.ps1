@@ -2,7 +2,7 @@
 ## Title       : Get-SPFarmInfo.ps1
 ## Description : This script will collect information regarding the Farm, Search, and the SSA's in the Farm.
 ## Contributors: Anthony Casillas | Brian Pendergrass | Josh Roark | PG
-## Date        : 09-22-2020
+## Date        : 02-03-2021
 ## Input       : 
 ## Output      : 
 ## Usage       : .\Get-SPFarmInfo.ps1
@@ -21,7 +21,7 @@ Write-Host ""
 Write-Output "If you have more than 1 SSA, then you will be prompted to select the SSA we will be focused on"
 Write-Host ""
 
-$timestamp = $(Get-Date -format "MM-dd-yyyy_HHmm")
+$timestamp = $(Get-Date -format "MM-dd-yyyy")
 $output = Read-Host "Enter a location for the output file (For Example: C:\Temp)" 
 $outputfilePrefix = $output + "\SPFarmInfo_"
 
@@ -59,19 +59,28 @@ function GetSSA
         $menu = @{}
         for($i=1;$i -le $ssas.count; $i++)
         {
-            Write-Host "$i. $($ssas[$i-1].name)"
+            Write-Host "$i   $($ssas[$i-1].name)"
             $menu.Add($i,($ssas[$i-1].name))
         }
         ""
-        [int]$ans = Read-Host 'Enter SSA selection ( pick the number to the left of the SSA Name )'
-        $selection = $menu.Item($ans)
-        $global:ssa = Get-SPEnterpriseSearchServiceApplication $selection
+        $ans = Read-Host 'Enter SSA selection ( pick the number to the left of the SSA Name )' -ErrorAction SilentlyContinue
+        $ans = $ans -as [int]
+        if($null -eq $ans -or ($ans.gettype()).Name -eq "String")
+        {
+            Write-Warning ("-- Your selection must be an Integer value. Please enter the number to the left of the SSA Name as your selection.")
+            return GetSSA
+        }
+        else
+        {
+            $selection = $menu.Item($ans)
+            $global:ssa = Get-SPEnterpriseSearchServiceApplication $selection
+        }
     }
 
     if ($global:ssa.Status -ne "Online")
     {
         $ssaStat = $global:ssa.Status
-        WriteErrorAndExit("Expected SSA to have status 'Online', found status: $ssaStat")
+        Write-Warning ("Expected SSA to have status 'Online', found status: $ssaStat")
     }
     return $global:ssa
 }
@@ -2469,5 +2478,7 @@ GetSPVersion
 ##             :   -  added Administrative Service Instance Check.. 
 ## Change log  : 1.8 [acasilla| jeremywa][joroar]
 ##             :   - changing the name of the output file and script name to "Get-SPFarmInfo.ps1"
+## Change log  : 1.9 [acasilla]
+##             :   - altered GetSSA function to force an interger value for input ( if they have multiple SSAs)"
 ## =====================================================================
 #>
