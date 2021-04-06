@@ -2,7 +2,7 @@
 ## Title       : Get-SPFarmInfo.ps1
 ## Description : This script will collect information regarding the Farm, Search, and the SSA's in the Farm.
 ## Contributors: Anthony Casillas | Brian Pendergrass | Josh Roark | PG
-## Date        : 02-03-2021
+## Date        : 04-05-2021
 ## Input       : 
 ## Output      : 
 ## Usage       : .\Get-SPFarmInfo.ps1
@@ -702,7 +702,7 @@ Function GetContentSources()
                   else { 
                     "    [" + $altUrl.UrlZone + "] " + $startUri;
                     "  --- Non-Default zone may impact Contextual Scopes (e.g. This Site) and other search functionality"
-                    "  ----- Check out https://techcommunity.microsoft.com/t5/microsoft-sharepoint-blog/problems-crawling-the-non-default-zone-explained/ba-p/1623382 " 
+                    "  ----- Check out https://www.ajcns.com/2021/02/problems-crawling-the-non-defaul-zone-for-a-sharepoint-web-application/ " 
                   }
                 }
               }
