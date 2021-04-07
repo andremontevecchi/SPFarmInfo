@@ -1,10 +1,9 @@
 <# =====================================================================
 ## Title       : Get-SPFarmInfo.ps1
 ## Description : This script will collect information regarding the Farm, Search, and the SSA's in the Farm.
-## Contributors: Anthony Casillas | Brian Pendergrass | Josh Roark | PG
+## Contributors: Anthony Casillas | Brian Pendergrass | Josh Roark | Jeremy Walker | PG
 ## Date        : 04-07-2021
-## Input       : 
-## Output      : 
+##
 ## Usage       : .\Get-SPFarmInfo.ps1
 ## Notes       : Scroll to bottom for change notes...
 ## Tag         : Search, Sharepoint, Powershell
