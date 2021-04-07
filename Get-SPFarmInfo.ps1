@@ -2,7 +2,7 @@
 ## Title       : Get-SPFarmInfo.ps1
 ## Description : This script will collect information regarding the Farm, Search, and the SSA's in the Farm.
 ## Contributors: Anthony Casillas | Brian Pendergrass | Josh Roark | PG
-## Date        : 04-05-2021
+## Date        : 04-07-2021
 ## Input       : 
 ## Output      : 
 ## Usage       : .\Get-SPFarmInfo.ps1
@@ -26,7 +26,7 @@ $output = Read-Host "Enter a location for the output file (For Example: C:\Temp)
 $outputfilePrefix = $output + "\SPFarmInfo_"
 
 $global:farm = Get-SPFarm
-$global:servers = Get-SPServer
+$global:servers = Get-SPServer | Sort-Object -Property DisplayName, Role
 $global:serviceInstances = Get-SPServiceInstance -All | Sort-Object -Property Server, TypeName
 $spProduct = Get-SPProduct
 
@@ -108,17 +108,19 @@ function GetServersInFarm()
     "   Servers in the Farm "
     "#########################################################################################"
 
-    foreach($svr in $global:servers | Select DisplayName, Id, Status, Role | Sort-Object -Property DisplayName, Role)
+    foreach($svr in $global:servers)
     {
         if($svr.Role -ne "Invalid")
         {
             $productStatus = $null
             $productStatus = $spProduct.GetStatus($svr.DisplayName)
-            $svr.DisplayName + " -- " + $svr.Id + " -- " + $svr.Role + " -- " + $svr.Status + " -- " + $productStatus
+            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer ajcnsv7app).Description
+            $svr.DisplayName + " || " + $svr.Id + " || " + $svr.Role + " || " + $svr.Status + " || " + $productStatus + " || " + $timeZone
         }
         else
         {
-            $svr.DisplayName + " -- " + $svr.Id + " -- " + $svr.Role + " -- " + $svr.Status
+            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer ajcnsv7app).Description
+            $svr.DisplayName + " || " + $svr.Id + " || " + $svr.Role + " || " + $svr.Status + " || " + $timeZone
         }
 
         
