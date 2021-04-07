@@ -1,9 +1,10 @@
 <# =====================================================================
 ## Title       : Get-SPFarmInfo.ps1
 ## Description : This script will collect information regarding the Farm, Search, and the SSA's in the Farm.
-## Contributors: Anthony Casillas | Brian Pendergrass | Josh Roark | Jeremy Walker | PG
-## Date        : 04-07-2021
-##
+## Contributors: Anthony Casillas | Brian Pendergrass | Josh Roark | PG
+## Date        : 04-06-2021
+## Input       : 
+## Output      : 
 ## Usage       : .\Get-SPFarmInfo.ps1
 ## Notes       : Scroll to bottom for change notes...
 ## Tag         : Search, Sharepoint, Powershell
@@ -113,12 +114,12 @@ function GetServersInFarm()
         {
             $productStatus = $null
             $productStatus = $spProduct.GetStatus($svr.DisplayName)
-            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer ajcnsv7app).Description
+            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer $svr.address).Description
             $svr.DisplayName + " || " + $svr.Id + " || " + $svr.Role + " || " + $svr.Status + " || " + $productStatus + " || " + $timeZone
         }
         else
         {
-            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer ajcnsv7app).Description
+            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer $svr.address).Description
             $svr.DisplayName + " || " + $svr.Id + " || " + $svr.Role + " || " + $svr.Status + " || " + $timeZone
         }
 
