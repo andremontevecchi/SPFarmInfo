@@ -114,12 +114,12 @@ function GetServersInFarm()
         {
             $productStatus = $null
             $productStatus = $spProduct.GetStatus($svr.DisplayName)
-            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer $svr.address).Description
+            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer $svr.address -ErrorAction SilentlyContinue).Description
             $svr.DisplayName + " || " + $svr.Id + " || " + $svr.Role + " || " + $svr.Status + " || " + $productStatus + " || " + $timeZone
         }
         else
         {
-            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer $svr.address).Description
+            $timeZone = $(Get-WMIObject -Class Win32_TimeZone -Computer $svr.address -ErrorAction SilentlyContinue).Description
             $svr.DisplayName + " || " + $svr.Id + " || " + $svr.Role + " || " + $svr.Status + " || " + $timeZone
         }
 
